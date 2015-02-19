@@ -1,2 +1,3 @@
 # name-gen
-Name generator for items, monsters, locations
+Генератор названий для вещей, существ, локаций на русском языке
+
