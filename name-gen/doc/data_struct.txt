@@ -1,0 +1,6 @@
+{
+	"Word": "word",
+	"Sex": "m",
+	"Part": "a/n",
+	"Tag": ["name", "location"]
+}
