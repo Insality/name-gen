@@ -38,10 +38,12 @@ def json_editor():
 	while (command != "exit"):
 		if (command == "help"):
 			print_help()
+
 		elif (command == "add"):
 			word = args[0]
 			genus = args[1]
 			tags = args[2:]
+			remove_word(args[0], json_data)
 			try:
 				cur_word = get_word_dict(word, genus, tags)
 				json_data["data"].append(cur_word)
@@ -54,8 +56,10 @@ def json_editor():
 			for word in json_data["data"]:
 				word_list.append(word["Word"])
 			print(", ".join( sorted(word_list)))
+
 		elif (command == "rm"):
-			pass
+			remove_word(args[0], json_data)
+
 		else:
 			print("Неверная команда! Введите help для справки")
 
@@ -68,6 +72,12 @@ def json_editor():
 	f.write(json.dumps(json_data, ensure_ascii=False))
 	f.close()
 
+def remove_word(word, json_data):
+	for tup in json_data["data"]:
+		if tup["Word"] == word:
+			json_data["data"].remove(tup)
+			print("Удалено %s" % word)
+			break
 
 def print_help():
 	print()
@@ -87,13 +97,11 @@ def print_help():
 	print('Сохраняет и выходит из редактирования')
 
 def get_word_dict(word, genus, tags):
-	# asserts here
 	assert genus=='m' or genus=='f', "Genus is incorrect"
 	assert type(tags) is list, "Tags is not a list"
 	assert len(word)>0 and word.isalpha(), "Word is incorrect"
 
 	tags = list (map(lambda x: x.title(), tags))
-
 	for tag in tags:
 		assert tag in Tags.Tags, "Tags is incorrect"
 

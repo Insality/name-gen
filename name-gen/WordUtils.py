@@ -12,15 +12,15 @@ DATADIR = "./data"
 
 def get_noun():
 	nouns = open_json("noun.json")["data"]
-	return nouns[random.randint(0, len(nouns) - 1)]["Word"]
+	return nouns[random.randint(0, len(nouns) - 1)]
 
 def get_adj():
 	adjs = open_json("adj.json")["data"]
-	return adjs[random.randint(0, len(adjs) - 1)]["Word"]
+	return adjs[random.randint(0, len(adjs) - 1)]
 
 def get_addon():
 	addons = open_json("addons.json")["data"]
-	return addons[random.randint(0, len(addons) - 1)]["Word"]
+	return addons[random.randint(0, len(addons) - 1)]
 
 def open_json(filename):
 	f = codecs.open(DATADIR + "/" + filename, 'r', encoding='utf8')
@@ -31,8 +31,8 @@ def open_json(filename):
 
 
 if __name__=="__main__":
+	l = []
 	for i in range(30):
-		# if (random.random() > 0.5):
-		print(get_adj() + " " + get_noun() + " " + get_addon())
-		# else:
-			# print(get_noun() + " " + get_addon())
+		l.append(get_adj()["Word"] + " " + get_noun()["Word"] + " " + get_addon()["Word"])
+	print('\n'.join( sorted(l, key=len) ))
+
