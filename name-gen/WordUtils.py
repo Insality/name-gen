@@ -36,7 +36,10 @@ def change_gender(word, gender):
 	if (len(p) > 0):
 		if (gender=='f'):
 			try:
-				return p[0].inflect({'femn'}).word
+				result = p[0].inflect({'femn'}).word
+				if result.endswith("ую"):
+					result = result[:-2] + "ая"
+				return result
 			except AttributeError:
 				return word
 		elif (gender=='m'):
@@ -45,16 +48,21 @@ def change_gender(word, gender):
 	return word
 
 
+def generate_phrase():
+	noun = get_noun()
+	new_word = change_gender(get_adj()["Word"], noun["Genus"]) + " " + noun["Word"] + " " + get_addon()["Word"]
+
+	if random.random()>(0.85):
+		new_word += " и %s" % get_addon()["Word"]
+
+	if random.random()>(0.90):
+		new_word = change_gender(get_adj()["Word"], noun["Genus"]) + " " + new_word
+
+	return new_word
+
 if __name__=="__main__":
 	l = []
 	for i in range(30):
-		noun = get_noun()
-		new_word = change_gender(get_adj()["Word"], noun["Genus"]) + " " + noun["Word"] + " " + get_addon()["Word"]
-
-		if random.random()>(0.85):
-			new_word += " и %s" % get_addon()["Word"]
-
-		l.append(new_word)
+		l.append(generate_phrase())
 
 	print('\n'.join( sorted(l, key=len) ))
-
