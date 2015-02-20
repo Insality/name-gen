@@ -32,4 +32,7 @@ def open_json(filename):
 
 if __name__=="__main__":
 	for i in range(30):
+		# if (random.random() > 0.5):
 		print(get_adj() + " " + get_noun() + " " + get_addon())
+		# else:
+			# print(get_noun() + " " + get_addon())

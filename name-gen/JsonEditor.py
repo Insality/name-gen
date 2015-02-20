@@ -53,7 +53,7 @@ def json_editor():
 			word_list = []
 			for word in json_data["data"]:
 				word_list.append(word["Word"])
-			print(", ".join(word_list))
+			print(", ".join( sorted(word_list)))
 		elif (command == "rm"):
 			pass
 		else:
