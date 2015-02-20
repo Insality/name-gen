@@ -32,19 +32,29 @@ def open_json(filename):
 
 
 def change_gender(word, gender):
-	if (gender=='f'):
-		return morph.parse(word)[0].inflect({'femn'}).word
-	elif (gender=='m'):
-		return morph.parse(word)[0].inflect({'masc'}).word
+	p = morph.parse(word)
+	if (len(p) > 0):
+		if (gender=='f'):
+			try:
+				return p[0].inflect({'femn'}).word
+			except AttributeError:
+				return word
+		elif (gender=='m'):
+			# return p[0].inflect({'masc'}).word
+			return word
 	return word
-
-
 
 
 if __name__=="__main__":
 	l = []
 	for i in range(30):
 		noun = get_noun()
-		l.append( change_gender(get_adj()["Word"], noun["Genus"]) + " " + noun["Word"] + " " + get_addon()["Word"])
+		new_word = change_gender(get_adj()["Word"], noun["Genus"]) + " " + noun["Word"] + " " + get_addon()["Word"]
+
+		if random.random()>(0.85):
+			new_word += " и %s" % get_addon()["Word"]
+
+		l.append(new_word)
+
 	print('\n'.join( sorted(l, key=len) ))
 
