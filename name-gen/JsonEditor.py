@@ -93,6 +93,7 @@ def print_help():
 	print()
 	print('list')
 	print('Выводит список слов')
+	print()
 	print('exit')
 	print('Сохраняет и выходит из редактирования')
 
