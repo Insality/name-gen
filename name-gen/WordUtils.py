@@ -35,7 +35,7 @@ def change_gender(word, gender):
 	p = morph.parse(word)
 	if (len(p) > 0):
 		if (gender=='f'):
-			if word.endswith("ый"):
+			if word.endswith("ый") or word.endswith("ой"):
 				word = word[:-2] + "ая"
 				return word
 			# если неполучилось
