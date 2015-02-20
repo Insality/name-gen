@@ -7,8 +7,10 @@
 import json
 import codecs
 import random
+import pymorphy2
 
 DATADIR = "./data"
+morph = pymorphy2.MorphAnalyzer()
 
 def get_noun():
 	nouns = open_json("noun.json")["data"]
@@ -29,10 +31,20 @@ def open_json(filename):
 	f.close()
 
 
+def change_gender(word, gender):
+	if (gender=='f'):
+		return morph.parse(word)[0].inflect({'femn'}).word
+	elif (gender=='m'):
+		return morph.parse(word)[0].inflect({'masc'}).word
+	return word
+
+
+
 
 if __name__=="__main__":
 	l = []
 	for i in range(30):
-		l.append(get_adj()["Word"] + " " + get_noun()["Word"] + " " + get_addon()["Word"])
+		noun = get_noun()
+		l.append( change_gender(get_adj()["Word"], noun["Genus"]) + " " + noun["Word"] + " " + get_addon()["Word"])
 	print('\n'.join( sorted(l, key=len) ))
 
