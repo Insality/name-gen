@@ -1,5 +1,7 @@
 # coding: utf-8
 
-ITEM = 0
-LOCATION = 1
-CREATURE = 2
+ITEM = "Item"
+LOCATION = "Location"
+CREATURE = "Creature"
+
+Tags = (ITEM, LOCATION, CREATURE)
