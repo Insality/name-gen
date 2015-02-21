@@ -7,15 +7,24 @@ from WordUtils import *
 
 def print_help():
 	print("Синтаксис: PhraseGen [Тег] [Число]")
-	print("Доступные теги %s и All - для генерации без учета тегов" % (", ".join(Tags.Tags)))
+	print("Доступные теги %s, Boss и All - для генерации без учета тегов" % (", ".join(Tags.Tags)))
 	print("По умолчанию число фраз - 30")
 
-def generate_boss(noun):
+def generate_boss():
+	noun = get_noun(Tags.CREATURE)
+	noun_name = stem_noun(noun["Word"]) + get_end()["Word"]
+	noun["Genus"] = "m"
+	noun["Word"] = noun_name
+
 	new_word = noun["Word"].title()
 
 	title = ""
 	if (random.random()<0.5):
-		title = ", " + get_noun(Tags.CREATURE)["Word"] + " " + get_addon(Tags.CREATURE)["Word"]
+		n = get_noun(Tags.CREATURE)
+		title = n["Word"] + " " + get_addon(Tags.CREATURE)["Word"]
+		if (random.random() < 0.25):
+			title = change_gender(get_adj(Tags.CREATURE)["Word"], n["Genus"]) + " " + title
+		title = ", " + title
 	else:
 		title = " " + get_adj()["Word"]
 
@@ -25,15 +34,6 @@ def generate_boss(noun):
 
 def generate_phrase(tag):
 	noun = get_noun(tag)
-
-	# Создаем имя уникального босса и заавершаем генерацию тут
-	noun_name = noun["Word"]
-	if (tag==Tags.CREATURE and random.random() < 0.2):
-
-		noun_name = stem_noun(noun["Word"]) + get_end()["Word"]
-		noun["Genus"] = "m"
-		noun["Word"] = noun_name
-		return generate_boss(noun)
 
 	new_word = ""
 
@@ -69,10 +69,14 @@ def generate_phrase(tag):
 
 
 if __name__=="__main__":
+	boss_mode = False
 	tag = None
 	try:
 		tag = sys.argv[1]
 		if (tag == "All"):
+			tag = None
+		if (tag == "Boss"):
+			boss_mode = True
 			tag = None
 	except IndexError:
 		print_help()
@@ -93,6 +97,9 @@ if __name__=="__main__":
 
 	l = []
 	for i in range(phrase_count):
-		l.append(generate_phrase(tag))
+		if (boss_mode):
+			l.append(generate_boss())
+		else:
+			l.append(generate_phrase(tag))
 
 	print('\n'.join( sorted(l, key=len) ))

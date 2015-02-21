@@ -64,11 +64,11 @@ def open_json(filename):
 def stem_noun(noun):
 	max_chars = 9
 	nl = len(noun)
-	if (nl < max_chars):
-		max_chars = nl
+	if (nl-2 < max_chars):
+		max_chars = nl-2
 	if (nl <= 4):
 		return noun
-	return noun[:random.randint(3, max_chars)]
+	return noun[:random.randint(2, max_chars)]
 
 def change_gender(word, gender):
 	p = morph.parse(word)
