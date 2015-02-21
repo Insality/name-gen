@@ -30,6 +30,10 @@ def get_adj(tag=None):
 
 	return adjs[random.randint(0, len(adjs) - 1)]
 
+def get_end():
+	end = open_json("endings.json")["data"]
+	return end[random.randint(0, len(end) - 1)]
+
 def get_adj_to_addon(addon, tag=None):
 	addon_tags = morph.parse(addon)[0].tag
 	case = addon_tags.case
@@ -59,6 +63,12 @@ def open_json(filename):
 	return json.loads(f_data)
 	f.close()
 
+def stem_noun(noun):
+	# lenght_to_strip = len(noun)/2
+	nl = len(noun)
+	if (nl <= 4):
+		return noun
+	return noun[:random.randint(int(nl/2), nl-2)]
 
 def change_gender(word, gender):
 	p = morph.parse(word)
@@ -80,8 +90,29 @@ def change_gender(word, gender):
 			return word
 	return word
 
+def generate_boss(noun):
+	new_word = noun["Word"] + ", "
+
+	titul = ""
+	titul = get_noun(Tags.CREATURE)["Word"] + " " + get_addon(Tags.CREATURE)["Word"]
+
+	new_word += titul
+
+	return new_word
+
 def generate_phrase(tag):
 	noun = get_noun(tag)
+
+
+	# Создаем имя уникального босса и заавершаем генерацию тут
+	noun_name = noun["Word"]
+	if (tag==Tags.CREATURE and random.random() < 0.2):
+
+		noun_name = stem_noun(noun["Word"]) + get_end()["Word"]
+		noun["Genus"] = "m"
+		noun["Word"] = noun_name
+		return generate_boss(noun)
+
 
 	new_word = ""
 
