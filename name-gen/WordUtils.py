@@ -69,16 +69,15 @@ def change_gender(word, gender):
 def generate_phrase(tag):
 	noun = get_noun(tag)
 	
-
 	r = random.random()
 	if (r < 0.10):
-		new_word = change_gender(get_adj(tag)["Word"], noun["Genus"]) + " " + noun["Word"]
-	elif (r < 0.20):
 		new_word = noun["Word"] + " " + get_addon(tag)["Word"]
+	elif (r < 0.20):
+		new_word = change_gender(get_adj(tag)["Word"], noun["Genus"]) + " " + noun["Word"]
 	else:
 		new_word = change_gender(get_adj(tag)["Word"], noun["Genus"]) + " " + noun["Word"] + " " + get_addon(tag)["Word"]
 
-	if random.random()>(0.85):
+	if random.random()>(0.85) and r < (0.10):
 		new_word += " и %s" % get_addon(tag)["Word"]
 
 	if random.random()>(0.90):
