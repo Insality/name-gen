@@ -28,6 +28,7 @@ def json_editor():
 	json_data = json.loads(f_data)
 	f.close()
 
+	print("Файл загружен, число слов %i" % len(json_data["data"]))
 	print("Введите команду, help для справки")
 
 	command = input(">>> ")

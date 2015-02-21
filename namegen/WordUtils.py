@@ -30,6 +30,21 @@ def get_adj(tag=None):
 
 	return adjs[random.randint(0, len(adjs) - 1)]
 
+def get_adj_to_addon(addon, tag=None):
+	addon_tags = morph.parse(addon)[0].tag
+	case = addon_tags.case
+	number = addon_tags.number
+	gender = addon_tags.gender
+
+	adj = get_adj(tag)["Word"]
+	result = ""
+	try:
+		result = morph.parse(adj)[0].inflect({case, number, gender}).word
+	except AttributeError:
+		# При любой ошибке можно вернуть пустое слово
+		result = ""
+	return result
+
 def get_addon(tag=None):
 	addons = open_json("addons.json")["data"]
 
@@ -65,20 +80,32 @@ def change_gender(word, gender):
 			return word
 	return word
 
-
 def generate_phrase(tag):
 	noun = get_noun(tag)
-	
+
+	new_word = ""
+
+	addon_first = get_addon(tag)["Word"]
+	if (random.random() < 0.2):
+		addon_first = get_adj_to_addon(addon_first, tag) + " " + addon_first
+
+	addon_second = get_addon(tag)["Word"]
+	if (random.random() < 0.2):
+		addon_second = get_adj_to_addon(addon_second, tag) + " " + addon_second
+
+	adj_first = change_gender(get_adj(tag)["Word"], noun["Genus"])
+	adj_second = change_gender(get_adj(tag)["Word"], noun["Genus"])
+
 	r = random.random()
 	if (r < 0.10):
-		new_word = noun["Word"] + " " + get_addon(tag)["Word"]
+		new_word = noun["Word"] + " " + addon_first
 	elif (r < 0.20):
-		new_word = change_gender(get_adj(tag)["Word"], noun["Genus"]) + " " + noun["Word"]
+		new_word = adj_first + " " + noun["Word"]
 	else:
-		new_word = change_gender(get_adj(tag)["Word"], noun["Genus"]) + " " + noun["Word"] + " " + get_addon(tag)["Word"]
+		new_word = adj_first + " " + noun["Word"] + " " + addon_first
 
 	if random.random()>(0.85) and r < (0.10):
-		new_word += " и %s" % get_addon(tag)["Word"]
+		new_word += " и %s" % addon_second
 
 	if random.random()>(0.90):
 		new_word = change_gender(get_adj(tag)["Word"], noun["Genus"]) + " " + new_word
@@ -86,7 +113,6 @@ def generate_phrase(tag):
 	return new_word
 
 if __name__=="__main__":
-
 	try:
 		tag = sys.argv[1]
 	except IndexError:
