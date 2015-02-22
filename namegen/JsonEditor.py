@@ -9,6 +9,7 @@ import os
 import json
 import Tags
 import codecs
+from WordUtils import get_word_dict
 
 DATADIR = "./data"
 
@@ -42,8 +43,12 @@ def json_editor():
 
 		elif (command == "add"):
 			word = args[0]
-			genus = args[1]
-			tags = args[2:]
+			try:
+				genus = args[1]
+				tags = args[2:]
+			except IndexError:
+				genus = "m"
+				tags = []
 			remove_word(args[0], json_data)
 			try:
 				cur_word = get_word_dict(word, genus, tags)
@@ -97,18 +102,6 @@ def print_help():
 	print()
 	print('exit')
 	print('Сохраняет и выходит из редактирования')
-
-def get_word_dict(word, genus, tags):
-	assert genus=='m' or genus=='f', "Genus is incorrect"
-	assert type(tags) is list, "Tags is not a list"
-	assert len(word)>0 and word.isalpha(), "Word is incorrect"
-
-	tags = list (map(lambda x: x.title(), tags))
-	for tag in tags:
-		assert tag in Tags.Tags, "Tags is incorrect"
-
-	word = {"Word": word.lower(), "Genus": genus, "Tags": tags}
-	return word
 
 
 if __name__== '__main__':

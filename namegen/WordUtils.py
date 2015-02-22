@@ -5,6 +5,7 @@
 '''
 
 import json
+import Tags
 import codecs
 import random
 import pymorphy2
@@ -62,7 +63,7 @@ def open_json(filename):
 	f.close()
 
 def stem_noun(noun):
-	max_chars = 9
+	max_chars = 7
 	nl = len(noun)
 	if (nl-2 < max_chars):
 		max_chars = nl-2
@@ -88,4 +89,16 @@ def change_gender(word, gender):
 		elif (gender=='m'):
 			# return p[0].inflect({'masc'}).word
 			return word
+	return word
+
+def get_word_dict(word, genus, tags):
+	assert genus=='m' or genus=='f', "Genus is incorrect"
+	assert type(tags) is list, "Tags is not a list"
+	assert len(word)>0 and word.isalpha(), "Word is incorrect"
+
+	tags = list (map(lambda x: x.title(), tags))
+	for tag in tags:
+		assert tag in Tags.Tags, "Tags is incorrect"
+
+	word = {"Word": word.lower(), "Genus": genus, "Tags": tags}
 	return word

@@ -19,25 +19,36 @@ def generate_boss():
 	new_word = noun["Word"].title()
 
 	title = ""
+	# Name, [adj] noun [addon]
 	if (random.random()<0.5):
 		n = get_noun(Tags.CREATURE)
-		title = n["Word"] + " " + get_addon(Tags.CREATURE)["Word"]
-		if (random.random() < 0.25):
+		title = n["Word"]
+		r = random.random()
+		if (r < 0.4):
 			title = change_gender(get_adj(Tags.CREATURE)["Word"], n["Genus"]) + " " + title
+		elif (r <0.8):
+			title += " " + get_addon(Tags.CREATURE)["Word"]
+		else:
+			title = change_gender(get_adj(Tags.CREATURE)["Word"], n["Genus"]) + " " + title + " " + get_addon(Tags.CREATURE)["Word"]
+
 		title = ", " + title
 	else:
+		# Name adj
 		title = " " + get_adj()["Word"]
 
 	new_word += title
 
 	return new_word
 
-def generate_phrase(tag):
-	noun = get_noun(tag)
+def generate_phrase(tag, noun=None):
+	if (noun == None):
+		noun = get_noun(tag)
+
 
 	new_word = ""
 
 	addon_first = get_addon(tag)["Word"]
+	addon_first_added = False
 	if (random.random() < 0.2):
 		addon_first = get_adj_to_addon(addon_first, tag) + " " + addon_first
 
@@ -51,18 +62,22 @@ def generate_phrase(tag):
 	r = random.random()
 	if (r < 0.10):
 		new_word = noun["Word"] + " " + addon_first
+		addon_first_added = True
 	elif (r < 0.20):
 		new_word = adj_first + " " + noun["Word"]
 	else:
 		new_word = adj_first + " " + noun["Word"] + " " + addon_first
+		addon_first_added = True
 
-	if random.random()>(0.85) and r < (0.10):
-		new_word += " и %s" % addon_second
+	if random.random()>(0.85):
+		if (addon_first_added):
+			new_word += " и"
+		new_word += " " + addon_second
 
 	if random.random()>(0.90):
 		new_word = change_gender(get_adj(tag)["Word"], noun["Genus"]) + " " + new_word
 
-	new_word.replace("  ", " ")
+	new_word = new_word.replace("  ", " ")
 
 	return new_word
 
