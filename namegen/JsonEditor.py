@@ -89,7 +89,7 @@ def print_help():
 	print()
 	print("help - эта информация")
 	print()
-	print("add $word $genus $tags")
+	print("add $word [$genus $tags]")
 	print("word: русское слово, genus: род слова (m - мужской, f- женский)")
 	print("tags: тэги. Список возможных тэгов: %s " % ", ".join(Tags.Tags))
 	print("Пример: add Слово m Item Location")

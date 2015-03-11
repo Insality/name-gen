@@ -20,7 +20,7 @@ def generate_boss():
 
 	title = ""
 	# Name, [adj] noun [addon]
-	if (random.random()<0.5):
+	if (random.random()<0.6):
 		n = get_noun(Tags.CREATURE)
 		title = n["Word"]
 		r = random.random()
@@ -81,7 +81,6 @@ def generate_phrase(tag, noun=None):
 	return new_word
 
 
-
 if __name__=="__main__":
 	boss_mode = False
 	tag = None
@@ -118,3 +117,4 @@ if __name__=="__main__":
 			l.append(generate_phrase(tag))
 
 	print('\n'.join( sorted(l, key=len) ))
+	
