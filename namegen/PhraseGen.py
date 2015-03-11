@@ -44,7 +44,6 @@ def generate_phrase(tag, noun=None):
 	if (noun == None):
 		noun = get_noun(tag)
 
-
 	new_word = ""
 
 	addon_first = get_addon(tag)["Word"]
@@ -115,6 +114,7 @@ if __name__=="__main__":
 		if (boss_mode):
 			l.append(generate_boss())
 		else:
+			# l.append(generate_phrase(tag, get_word_dict("Алексе", "m", [])))
 			l.append(generate_phrase(tag))
 
 	print('\n'.join( sorted(l, key=len) ))
