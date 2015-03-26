@@ -4,11 +4,20 @@
 Модуль для получения и редактирования слов (изменения падежей и окончаний)
 '''
 
+import os
 import json
-import Tags
 import codecs
 import random
 import pymorphy2
+if __name__=="__main__":
+	import Tags
+else:
+	import Tags
+
+
+cur_dir = os.path.dirname(__file__)
+if (cur_dir == ""):
+	cur_dir = "."
 
 DATADIR = "./data"
 morph = pymorphy2.MorphAnalyzer()
@@ -57,7 +66,7 @@ def get_addon(tag=None):
 	return addons[random.randint(0, len(addons) - 1)]
 
 def open_json(filename):
-	f = codecs.open(DATADIR + "/" + filename, 'r', encoding='utf8')
+	f = codecs.open(cur_dir + "/" + DATADIR + "/" + filename, 'r', encoding='utf8')
 	f_data = f.read()
 	return json.loads(f_data)
 	f.close()

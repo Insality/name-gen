@@ -1,9 +1,13 @@
 # coding: utf-8
 
 import sys
-import Tags
 import random
-from WordUtils import *
+if __name__=="__main__":
+	import Tags
+	from WordUtils import *
+else:
+	from . import Tags
+	from .WordUtils import *
 
 def print_help():
 	print("Синтаксис: PhraseGen [Тег] [Число]")
