@@ -59,8 +59,13 @@ def json_editor():
 
 		elif (command == "list"):
 			word_list = []
+			try:
+				t = args[0]
+			except IndexError:
+				t = None
 			for word in json_data["data"]:
-				word_list.append(word["Word"])
+				if (t is None) or (t in word["Tags"]):
+					word_list.append(word["Word"])
 			print(", ".join( sorted(word_list)))
 
 		elif (command == "rm"):
