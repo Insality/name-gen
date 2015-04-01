@@ -68,8 +68,8 @@ def get_addon(tag=None):
 def open_json(filename):
 	f = codecs.open(cur_dir + "/" + DATADIR + "/" + filename, 'r', encoding='utf8')
 	f_data = f.read()
-	return json.loads(f_data)
 	f.close()
+	return json.loads(f_data)
 
 def stem_noun(noun):
 	max_chars = 7
