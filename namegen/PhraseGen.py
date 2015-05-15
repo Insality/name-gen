@@ -6,8 +6,8 @@ if __name__=="__main__":
 	import Tags
 	from WordUtils import *
 else:
-	from . import Tags
-	from .WordUtils import *
+	import Tags
+	from WordUtils import *
 
 def print_help():
 	print("Синтаксис: PhraseGen [Тег] [Число]")
@@ -120,5 +120,7 @@ if __name__=="__main__":
 			# l.append(generate_phrase(tag, get_word_dict("Алексе", "m", [])))
 			l.append(generate_phrase(tag))
 
-	print('\n'.join( sorted(l, key=len) ))
-	
+	# sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
+	first = l[0]
+	sys.stdout.write(first)
+	# print('\n'.join( sorted(l, key=len) ))
