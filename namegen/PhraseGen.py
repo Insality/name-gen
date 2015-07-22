@@ -121,6 +121,6 @@ if __name__=="__main__":
 			l.append(generate_phrase(tag))
 
 	# sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
-	first = l[0]
-	sys.stdout.write(first)
-	# print('\n'.join( sorted(l, key=len) ))
+	# first = l[0]
+	# sys.stdout.write(first)
+	print('\n'.join( sorted(l, key=len) ))
