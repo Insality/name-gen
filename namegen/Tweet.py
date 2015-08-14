@@ -22,10 +22,10 @@ def twit():
 
 	phrase += " #%s #%s" % (tag, "Колбаска")
 	print("Got phrase %s" % phrase)
-	# auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET) 
-	# auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET) 
-	# api = tweepy.API(auth)
-	# api.update_status(status=phrase)
+	auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET) 
+	auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET) 
+	api = tweepy.API(auth)
+	api.update_status(status=phrase)
 
 
 if __name__=="__main__":
